@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.String?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" xmlns="http://javafx.com/javafx/8.0.121"
+          fx:controller="SPDownloader.Controller">
+    <columnConstraints>
+        <ColumnConstraints/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints/>
+    </rowConstraints>
+    <children>
+        <AnchorPane minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0">
+            <children>
+                <SplitPane fx:id="split" dividerPositions="0.7241" orientation="VERTICAL" prefHeight="600.0"
+                           prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                           AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                            <children>
+                                <SplitPane fx:id="upperSplit" dividerPositions="0.5" prefHeight="430.0"
+                                           prefWidth="798.0">
+                                    <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                            <children>
+                                                <TabPane fx:id="seasonTabs" prefHeight="430.0" prefWidth="798.0"
+                                                         tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+                                                         AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                         AnchorPane.topAnchor="0.0"/>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                            <children>
+                                                <TextArea fx:id="console" editable="false" prefHeight="428.0"
+                                                          prefWidth="395.0" AnchorPane.bottomAnchor="0.0"
+                                                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                          AnchorPane.topAnchor="0.0"/>
+                                            </children>
+                                        </AnchorPane>
+                                    </items>
+                                </SplitPane>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="lower" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                            <children>
+                                <AnchorPane layoutX="220.0" prefHeight="162.0" prefWidth="578.0">
+                                    <children>
+                                        <Button fx:id="download" defaultButton="true" layoutX="399.0" layoutY="110.0"
+                                                mnemonicParsing="false" onAction="#onDownload" text="download selected">
+                                            <font>
+                                                <Font size="17.0"/>
+                                            </font>
+                                        </Button>
+                                        <AnchorPane prefHeight="162.0" prefWidth="200.0">
+                                            <children>
+                                                <Label alignment="CENTER" layoutY="-1.0" prefHeight="30.0"
+                                                       prefWidth="200.0" text="Language:">
+                                                    <font>
+                                                        <Font size="20.0"/>
+                                                    </font>
+                                                </Label>
+                                                <CheckBox fx:id="languageEnglish" alignment="CENTER"
+                                                          contentDisplay="CENTER" layoutY="44.0" mnemonicParsing="false"
+                                                          onAction="#onEnglish" prefHeight="17.0" prefWidth="200.0"
+                                                          selected="true" text="English"/>
+                                                <CheckBox fx:id="languageGerman" alignment="CENTER"
+                                                          contentDisplay="CENTER" layoutY="73.0" mnemonicParsing="false"
+                                                          onAction="#onGerman" prefHeight="17.0" prefWidth="203.0"
+                                                          text="German"/>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane layoutX="195.0" prefHeight="162.0" prefWidth="200.0">
+                                            <children>
+                                                <Label alignment="CENTER" layoutX="1.0" layoutY="-1.0" prefHeight="17.0"
+                                                       prefWidth="200.0" text="Threads:">
+                                                    <font>
+                                                        <Font size="20.0"/>
+                                                    </font>
+                                                </Label>
+                                                <ChoiceBox fx:id="threads" disable="true" layoutX="-2.0" layoutY="29.0"
+                                                           prefHeight="25.0" prefWidth="201.0" value="1">
+                                                    <items>
+                                                        <FXCollections fx:factory="observableArrayList">
+                                                            <String fx:value="1"/>
+                                                            <String fx:value="2"/>
+                                                            <String fx:value="3"/>
+                                                            <String fx:value="4"/>
+                                                        </FXCollections>
+                                                    </items>
+                                                </ChoiceBox>
+                                                <Label layoutX="10.0" layoutY="54.0" text="(not working for now)">
+                                                    <font>
+                                                        <Font size="19.0"/>
+                                                    </font>
+                                                </Label>
+                                                <Button fx:id="selectAll" layoutX="19.0" layoutY="81.0"
+                                                        mnemonicParsing="false" onAction="#onSelectAll" prefHeight="0.0"
+                                                        prefWidth="165.0" text="select all">
+                                                    <font>
+                                                        <Font size="16.0"/>
+                                                    </font>
+                                                </Button>
+                                                <Button fx:id="deselectAll" layoutX="19.0" layoutY="122.0"
+                                                        mnemonicParsing="false" onAction="#onDeselectAll"
+                                                        prefHeight="38.0" prefWidth="165.0" text="deselect all">
+                                                    <font>
+                                                        <Font size="16.0"/>
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                        </AnchorPane>
+                                        <Button fx:id="stop" cancelButton="true" layoutX="400.0" layoutY="62.0"
+                                                mnemonicParsing="false" onAction="#onStop" prefHeight="38.0"
+                                                prefWidth="165.0" style="-fx-background-color: red;" text="Stop">
+                                            <font>
+                                                <Font size="17.0"/>
+                                            </font>
+                                        </Button>
+                                        <Button fx:id="databaseEditor" layoutX="400.0" layoutY="14.0"
+                                                mnemonicParsing="false" onAction="#onDatabaseEditor" prefHeight="38.0"
+                                                prefWidth="165.0" text="Database Editor">
+                                            <font>
+                                                <Font size="17.0"/>
+                                            </font>
+                                        </Button>
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane prefHeight="162.0" prefWidth="220.0">
+                                    <children>
+                                        <ListView fx:id="selectedList" prefHeight="147.0" prefWidth="220.0"
+                                                  AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0"
+                                                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0"/>
+                                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="220.0"
+                                               text="Selected Episodes:" textAlignment="CENTER"/>
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </AnchorPane>
+                    </items>
+                </SplitPane>
+            </children>
+        </AnchorPane>
+    </children>
+</GridPane>

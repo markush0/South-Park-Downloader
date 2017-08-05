@@ -1,0 +1,5 @@
+<root>
+    <item name='javafx.scene.control.cell.CheckBoxListCell javafx.util.Callback&lt;javafx.scene.control.ListView&lt;T&gt;,javafx.scene.control.ListCell&lt;T&gt;&gt; forListView(javafx.util.Callback&lt;T,javafx.beans.value.ObservableValue&lt;java.lang.Boolean&gt;&gt;)'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>
