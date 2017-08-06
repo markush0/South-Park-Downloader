@@ -15,7 +15,7 @@ It is currently in it's early state.
 
 ### Where do I get it? ###
 
-Just visit the [Releases]() Page to download the compiled version.
+Just visit the [Releases](https://github.com/flokol120/South-Park-Downloader/releases/tag/v0.5) Page to download the compiled version.
 
 ### What other programs/libraries is this repository using? ###
 
