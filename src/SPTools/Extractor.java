@@ -1,4 +1,6 @@
-package SPDownloader;
+package SPTools;
+
+import SPDownloader.Main;
 
 import java.io.*;
 import java.net.URI;
@@ -11,7 +13,7 @@ import java.util.zip.ZipFile;
 
 public class Extractor {
 
-    protected static URI getJarURI()
+    public static URI getJarURI()
             throws URISyntaxException {
         final ProtectionDomain domain;
         final CodeSource source;
@@ -26,8 +28,8 @@ public class Extractor {
         return (uri);
     }
 
-    protected static URI getFile(final URI where,
-                                 final String fileName)
+    public static URI getFile(final URI where,
+                              final String fileName)
             throws
             IOException {
         final File location;

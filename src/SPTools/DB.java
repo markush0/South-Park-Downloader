@@ -1,4 +1,4 @@
-package SPDownloader;
+package SPTools;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +21,7 @@ public class DB {
         }
     }
 
-    protected ArrayList<String> getSeasonCount() throws SQLException {
+    public ArrayList<String> getSeasonCount() throws SQLException {
         Connection conn = dbConnector();
         Statement statement = conn.createStatement();
 
@@ -39,7 +39,7 @@ public class DB {
         return test;
     }
 
-    protected ObservableList getEpisodesBySeason(String season) throws SQLException {
+    public ObservableList getEpisodesBySeason(String season) throws SQLException {
         Connection conn = dbConnector();
         Statement statement = conn.createStatement();
         ResultSet res = statement.executeQuery("SELECT EPISODE FROM EPISODES WHERE SEASON = '" + season + "'");
@@ -52,7 +52,7 @@ public class DB {
         return rt;
     }
 
-    protected ObservableList getEpisodesBySeasonFormatted(String season) throws SQLException {
+    public ObservableList getEpisodesBySeasonFormatted(String season) throws SQLException {
         Connection conn = dbConnector();
         Statement statement = conn.createStatement();
 

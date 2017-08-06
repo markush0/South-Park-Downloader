@@ -15,8 +15,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static SPDownloader.Extractor.getFile;
-import static SPDownloader.Extractor.getJarURI;
+import static SPTools.Extractor.getFile;
+import static SPTools.Extractor.getJarURI;
 
 public class Downloader {
 

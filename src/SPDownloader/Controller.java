@@ -1,6 +1,7 @@
 package SPDownloader;
 
 import SPEditor.Editor;
+import SPTools.DB;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;

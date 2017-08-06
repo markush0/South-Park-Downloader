@@ -1,7 +1,7 @@
 package SPEditor;
 
-import SPDownloader.DB;
 import SPDownloader.Main;
+import SPTools.DB;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
