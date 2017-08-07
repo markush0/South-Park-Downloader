@@ -22,6 +22,8 @@ public class Downloader {
 
     protected static Thread t;
 
+    protected static boolean isDownloading = false;
+
     protected static void downloader(CheckBox languageGerman, CheckBox languageEnglish, ArrayList<String> selectedEpisodes, TextArea console, SplitPane upperSplit) {
         int threadsInt = 1;
 
@@ -30,6 +32,7 @@ public class Downloader {
         t = new Thread(new Runnable() {
             @Override
             public void run() {
+                isDownloading = true;
                 int languageInt = 0;
 
                 if (languageGerman.isSelected()) {
@@ -144,6 +147,7 @@ public class Downloader {
 
                 }
                 upperSplit.setDividerPositions(0.5);
+                isDownloading = false;
             }
         });
         t.start();

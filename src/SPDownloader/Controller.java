@@ -16,12 +16,12 @@ import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static SPDownloader.Downloader.downloader;
-import static SPDownloader.Downloader.t;
+import static SPDownloader.Downloader.*;
 import static SPDownloader.Main.stage;
 
 public class Controller {
@@ -213,13 +213,18 @@ public class Controller {
 
     @FXML
     public void onDownload() {
-        upperSplit.setDividerPositions(0.3);
-        downloader(languageGerman, languageEnglish, selectedEpisodes, console, upperSplit);
+        if (!isDownloading) {
+            upperSplit.setDividerPositions(0.3);
+            downloader(languageGerman, languageEnglish, selectedEpisodes, console, upperSplit);
+        } else {
+            JOptionPane.showMessageDialog(null, "A download process is already in the action. Please wait until it is finished or stop it!");
+        }
     }
 
     @FXML
     public void onStop() {
         upperSplit.setDividerPositions(0.5);
+        isDownloading = false;
         t.stop();
     }
 
