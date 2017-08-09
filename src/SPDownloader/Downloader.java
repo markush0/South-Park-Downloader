@@ -106,7 +106,7 @@ class Downloader {
                                 System.out.println(result[0]);
 
                                 Process process2 = null;
-                                File[] dats = finder(new File(".").getCanonicalPath(), ".mp4");
+                                File[] dats = finder(new File(".").getCanonicalPath());
                                 try {
                                     if (lastFileName.contains("&amp;")) {
                                         lastFileName = lastFileName.replaceAll("&amp;", "and");
@@ -150,12 +150,9 @@ class Downloader {
                                     while ((line2 = br2.readLine()) != null) {
                                         toConsole = line2;
                                         System.out.println(line2);
-                                        Platform.runLater(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                if (!toConsole.equals("")) {
-                                                    console.appendText(toConsole + "\n");
-                                                }
+                                        Platform.runLater(() -> {
+                                            if (!toConsole.equals("")) {
+                                                console.appendText(toConsole + "\n");
                                             }
                                         });
                                     }
@@ -201,12 +198,9 @@ class Downloader {
                                 }
                             }
                             toConsole = line;
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (!toConsole.equals("")) {
-                                        console.appendText(toConsole + "\n");
-                                    }
+                            Platform.runLater(() -> {
+                                if (!toConsole.equals("")) {
+                                    console.appendText(toConsole + "\n");
                                 }
                             });
                             stdOut = stdOut + line + "\n";
@@ -215,7 +209,7 @@ class Downloader {
                                 String temp = result[0];
 
                                 Process process2 = null;
-                                File[] dats = finder(new File(".").getCanonicalPath(), ".mp4");
+                                File[] dats = finder(new File(".").getCanonicalPath());
                                 if (temp.contains("&amp;")) {
                                     temp = temp.replaceAll("&amp;", "and");
                                 }
@@ -260,12 +254,9 @@ class Downloader {
                                     while ((line2 = br2.readLine()) != null) {
                                         System.out.println(line2);
                                         toConsole = line2;
-                                        Platform.runLater(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                if (!toConsole.equals("")) {
-                                                    console.appendText(toConsole + "\n");
-                                                }
+                                        Platform.runLater(() -> {
+                                            if (!toConsole.equals("")) {
+                                                console.appendText(toConsole + "\n");
                                             }
                                         });
                                     }
@@ -292,28 +283,21 @@ class Downloader {
                         is = process.getInputStream();
                         isr = new InputStreamReader(is);
                         br = new BufferedReader(isr);
-                        line = null;
                         stdOut = null;
 
 
                         while ((line = br.readLine()) != null) {
                             final String test = line;
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    console.appendText(test + "\n");
-                                }
-                            });
+                            Platform.runLater(() -> console.appendText(test + "\n"));
                             stdOut = stdOut + line + "\n";
                             if (line.toLowerCase().contains("[download] finished downloading playlist:")) {
                                 String[] result = stdOut.substring(stdOut.indexOf("playlist") + 10, stdOut.length()).split("\n", 2);
                                 String temp = result[0];
-                                //lastFileNames.add(result[0]);
 
                                 System.out.println(result[0]);
 
                                 Process process2 = null;
-                                File[] dats = finder(new File(".").getCanonicalPath(), ".mp4");
+                                File[] dats = finder(new File(".").getCanonicalPath());
                                 try {
                                     if (temp.contains("&amp;")) {
                                         temp = temp.replaceAll("&amp;", "und");
@@ -358,12 +342,9 @@ class Downloader {
                                     while ((line2 = br2.readLine()) != null) {
                                         System.out.println(line2);
                                         toConsole = line2;
-                                        Platform.runLater(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                if (!toConsole.equals("")) {
-                                                    console.appendText(toConsole + "\n");
-                                                }
+                                        Platform.runLater(() -> {
+                                            if (!toConsole.equals("")) {
+                                                console.appendText(toConsole + "\n");
                                             }
                                         });
                                     }
@@ -400,12 +381,9 @@ class Downloader {
                                     while ((line2 = br2.readLine()) != null) {
                                         System.out.println(line2);
                                         toConsole = line2;
-                                        Platform.runLater(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                if (!toConsole.equals("")) {
-                                                    console.appendText(toConsole + "\n");
-                                                }
+                                        Platform.runLater(() -> {
+                                            if (!toConsole.equals("")) {
+                                                console.appendText(toConsole + "\n");
                                             }
                                         });
                                     }
@@ -444,12 +422,9 @@ class Downloader {
                             while ((line2 = br2.readLine()) != null) {
                                 System.out.println(line2);
                                 toConsole = line2;
-                                Platform.runLater(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (!toConsole.equals("")) {
-                                            console.appendText(toConsole + "\n");
-                                        }
+                                Platform.runLater(() -> {
+                                    if (!toConsole.equals("")) {
+                                        console.appendText(toConsole + "\n");
                                     }
                                 });
                             }
@@ -476,10 +451,10 @@ class Downloader {
         t.start();
     }
 
-    private static File[] finder(String dirName, String ending) {
+    private static File[] finder(String dirName) {
         File dir = new File(dirName);
 
-        return dir.listFiles((dir1, filename) -> filename.endsWith(ending) && filename.startsWith("temp"));
+        return dir.listFiles((dir1, filename) -> filename.endsWith(".mp4") && filename.startsWith("temp"));
 
     }
 }
