@@ -15,13 +15,14 @@ It is currently in it's early state.
 
 ### Where do I get it? ###
 
-Just visit the [Releases](https://github.com/flokol120/South-Park-Downloader/releases/tag/v0.5) Page to download the compiled version.
+Just visit the [Releases](https://github.com/flokol120/South-Park-Downloader/releases/) Page to download the compiled version.
 
 ### What other programs/libraries is this repository using? ###
 
 * [sqlite-jdbc](https://github.com/xerial/sqlite-jdbc) to use a sqlite Database.
 * [youtube-dl](https://rg3.github.io/youtube-dl/) to download the three parts of an episode.
 * [mkvmerge](https://mkvtoolnix.download/doc/mkvmerge.html) to merge the three downloaded parts.
+* [mkvextract](https://mkvtoolnix.download/doc/mkvextract.html) for multi-language support.
 
 ### Who do I talk to? ###
 
