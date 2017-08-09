@@ -3,7 +3,7 @@
 
 
 ### What is this repository for? ###
-This is a downloader for South Park Episodes from the official website.
+This is a downloader for South Park Episodes from the official website. Now also featuring multi-language support (English and German audio in one video file).
 
 It is currently in it's early state.
 
