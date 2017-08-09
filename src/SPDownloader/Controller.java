@@ -196,12 +196,12 @@ public class Controller {
 
     @FXML
     public void onGerman() {
-        languageEnglish.setSelected(false);
+        //languageEnglish.setSelected(false);
     }
 
     @FXML
     public void onEnglish() {
-        languageGerman.setSelected(false);
+        //languageGerman.setSelected(false);
     }
 
     @FXML

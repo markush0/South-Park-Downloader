@@ -62,7 +62,6 @@ public class Extractor {
         final ZipEntry entry;
         final InputStream zipStream;
         OutputStream fileStream;
-
         tempFile = File.createTempFile(fileName, Long.toString(System.currentTimeMillis()));
         tempFile.deleteOnExit();
         entry = zipFile.getEntry(fileName);
