@@ -14,7 +14,6 @@ import javafx.scene.layout.AnchorPane;
 import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import static SPDownloader.Downloader.*;
 import static SPDownloader.Main.stage;
@@ -59,11 +58,13 @@ public class Controller {
     @FXML
     private AnchorPane lower;*/
 
+    @Deprecated
     @FXML
     public void initialize() throws SQLException {
         updatePanes(true);
     }
 
+    @Deprecated
     private void updatePanes(boolean selectAll) throws SQLException {
         //clear all
         seasonTabs.getTabs().clear();
@@ -97,22 +98,13 @@ public class Controller {
                     selectedEpisodes.add(temp);
                 }
                 selectedList.setItems(FXCollections.observableArrayList(selectedEpisodes));
-                //observable.addListener((obs, wasSelected, isNowSelected) -> System.out.println("Check box for " + item + " changed from "+wasSelected+" to "+isNowSelected));
                 observable.addListener((observable1, oldValue, newValue) -> {
                     if (selectedEpisodes.contains(item + "," + seasonTabs.getSelectionModel().getSelectedItem().getText())) {
                         selectedEpisodes.remove(item + "," + seasonTabs.getSelectionModel().getSelectedItem().getText());
-                        System.out.println(item + "," + seasonTabs.getSelectionModel().getSelectedItem().getText() + " Already existed! removed it...");
                         selectedList.setItems(FXCollections.observableArrayList(selectedEpisodes));
-                        for (String selectedEpisode : selectedEpisodes) {
-                            System.out.println(selectedEpisode);
-                        }
                     } else {
                         selectedEpisodes.add(item + "," + seasonTabs.getSelectionModel().getSelectedItem().getText());
-                        System.out.println(item + "," + seasonTabs.getSelectionModel().getSelectedItem().getText() + " not existed... added it");
                         selectedList.setItems(FXCollections.observableArrayList(selectedEpisodes));
-                        for (String selectedEpisode : selectedEpisodes) {
-                            System.out.println(selectedEpisode);
-                        }
                     }
                 });
                 return observable;
@@ -122,13 +114,13 @@ public class Controller {
 
             Button deselectButton = new Button();
             deselectButton.setLayoutX(250);
+            deselectButton.setLayoutX(250);
             deselectButton.setText("deselect all from\n Season " + season);
             deselectButton.setOnAction(event -> listView.setCellFactory(CheckBoxListCell.forListView(param -> {
                 BooleanProperty observable = new SimpleBooleanProperty();
                 observable.setValue(false);
                 for (int j = 0; j < selectedEpisodes.size(); j++) {
                     if (selectedEpisodes.get(j).contains("Season " + season)) {
-                        System.out.println("removed " + selectedEpisodes.get(j));
                         selectedEpisodes.remove(j);
                     }
                 }
@@ -144,17 +136,9 @@ public class Controller {
             selectButton.setOnAction(event -> listView.setCellFactory(CheckBoxListCell.forListView(param -> {
                 BooleanProperty observable = new SimpleBooleanProperty();
                 observable.setValue(true);
-                try {
-                    ObservableList temp = db.getEpisodesBySeasonFormatted(season);
-                    for (Object aTemp : temp) {
-                        System.out.println(aTemp);
-                    }
-                    ObservableList list = FXCollections.observableArrayList(selectedEpisodes);
-                    Collections.addAll(list, temp.toArray());
-                    selectedList.setItems(list);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                selectedEpisodes.add(param + ",Season " + season);
+                ObservableList list = FXCollections.observableArrayList(selectedEpisodes);
+                selectedList.setItems(list);
                 return observable;
             })));
             pane.getChildren().add(selectButton);
@@ -189,6 +173,7 @@ public class Controller {
         }
     }
 
+    @Deprecated
     @FXML
     public void onStop() {
         upperSplit.setDividerPositions(0.5);
@@ -196,19 +181,15 @@ public class Controller {
         t.stop();
     }
 
+    @Deprecated
     @FXML
     public void onSelectAll() throws SQLException {
-        for (String selectedEpisode : selectedEpisodes) {
-            System.out.println(selectedEpisode);
-        }
         updatePanes(true);
     }
 
+    @Deprecated
     @FXML
     public void onDeselectAll() throws SQLException {
-        for (String selectedEpisode : selectedEpisodes) {
-            System.out.println(selectedEpisode);
-        }
         updatePanes(false);
     }
 

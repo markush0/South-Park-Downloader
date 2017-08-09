@@ -24,6 +24,8 @@ class Downloader {
     static boolean isDownloading = false;
     private static String toConsole = "";
 
+    private static boolean skip = false;
+
     static void downloader(CheckBox languageGerman, CheckBox languageEnglish, ArrayList<String> selectedEpisodes, TextArea console, SplitPane upperSplit) {
         int threadsInt = 1;
 
@@ -85,7 +87,7 @@ class Downloader {
                                 String[] result = line.substring(line.indexOf("playlist") + 10, line.length()).split("\n", 2);
                                 if (new File("SouthPark " + currSeason + "." + currEpisode + " - " + result[0] + " (" + languageStr + ").mkv").exists()) {
                                     process.destroy();
-                                    console.appendText("SouthPark " + currSeason + "." + currEpisode + " - " + result[0] + " (" + languageStr + ").mkv" + " already exists! Going to next file...");
+                                    console.appendText("SouthPark " + currSeason + "." + currEpisode + " - " + result[0] + " (" + languageStr + ").mkv" + " already exists! Skipping ...");
                                     break;
                                 }
                             }
@@ -109,16 +111,19 @@ class Downloader {
                                 File[] dats = finder(new File(".").getCanonicalPath());
                                 try {
                                     if (lastFileName.contains("&amp;")) {
-                                        lastFileName = lastFileName.replaceAll("&amp;", "and");
+                                        lastFileName = lastFileName.replace("&amp;", "and");
                                     }
                                     if (lastFileName.contains(":")) {
-                                        lastFileName = lastFileName.replaceAll(":", "");
+                                        lastFileName = lastFileName.replace(":", "");
                                     }
                                     if (lastFileName.contains("&")) {
-                                        lastFileName = lastFileName.replaceAll("&", "and");
+                                        lastFileName = lastFileName.replace("&", "and");
                                     }
                                     if (lastFileName.contains("\"")) {
-                                        lastFileName = lastFileName.replaceAll("\"", "");
+                                        lastFileName = lastFileName.replace("\"", "");
+                                    }
+                                    if (lastFileName.contains("?")) {
+                                        lastFileName = lastFileName.replace("?", "");
                                     }
                                     String arg = "\"SouthPark " + currSeason + "." + currEpisode + " - " + lastFileName + " (" + languageStr + ").mkv\"";
                                     String arg2 = "";
@@ -192,8 +197,14 @@ class Downloader {
                             if (line.toLowerCase().contains("downloading playlist")) {
                                 String[] result = line.substring(line.indexOf("playlist") + 10, line.length()).split("\n", 2);
                                 if (new File("SouthPark " + currSeason + "." + currEpisode + " - " + result[0] + " (English).mkv").exists()) {
+                                    console.appendText("SouthPark " + currSeason + "." + currEpisode + " - " + result[0] + " (English).mkv" + " already exists! Skipping ...");
                                     lastFileNames.add("SouthPark " + currSeason + "." + currEpisode + " - " + result[0] + " (English).mkv");
                                     process.destroy();
+                                    break;
+                                } else if (new File("SouthPark " + currSeason + "." + currEpisode + " - " + result[0] + " (German + English).mkv").exists()) {
+                                    console.appendText("SouthPark " + currSeason + "." + currEpisode + " - " + result[0] + " (German + English).mkv" + " already exists! Skipping ...");
+                                    process.destroy();
+                                    skip = true;
                                     break;
                                 }
                             }
@@ -211,16 +222,19 @@ class Downloader {
                                 Process process2 = null;
                                 File[] dats = finder(new File(".").getCanonicalPath());
                                 if (temp.contains("&amp;")) {
-                                    temp = temp.replaceAll("&amp;", "and");
+                                    temp = temp.replace("&amp;", "and");
                                 }
                                 if (temp.contains(":")) {
-                                    temp = temp.replaceAll(":", "");
+                                    temp = temp.replace(":", "");
                                 }
                                 if (temp.contains("&")) {
-                                    temp = temp.replaceAll("&", "and");
+                                    temp = temp.replace("&", "and");
                                 }
                                 if (temp.contains("\"")) {
-                                    temp = temp.replaceAll("\"", "");
+                                    temp = temp.replace("\"", "");
+                                }
+                                if (temp.contains("?")) {
+                                    temp = temp.replace("?", "");
                                 }
                                 try {
                                     String arg = "\"SouthPark " + currSeason + "." + currEpisode + " - " + temp + " (English).mkv\"";
@@ -286,7 +300,7 @@ class Downloader {
                         stdOut = null;
 
 
-                        while ((line = br.readLine()) != null) {
+                        while ((line = br.readLine()) != null && !skip) {
                             final String test = line;
                             Platform.runLater(() -> console.appendText(test + "\n"));
                             stdOut = stdOut + line + "\n";
@@ -300,16 +314,19 @@ class Downloader {
                                 File[] dats = finder(new File(".").getCanonicalPath());
                                 try {
                                     if (temp.contains("&amp;")) {
-                                        temp = temp.replaceAll("&amp;", "und");
+                                        temp = temp.replace("&amp;", "und");
                                     }
                                     if (temp.contains(":")) {
-                                        temp = temp.replaceAll(":", "");
+                                        temp = temp.replace(":", "");
                                     }
                                     if (temp.contains("&")) {
-                                        temp = temp.replaceAll("&", "und");
+                                        temp = temp.replace("&", "und");
                                     }
                                     if (temp.contains("\"")) {
-                                        temp = temp.replaceAll("\"", "");
+                                        temp = temp.replace("\"", "");
+                                    }
+                                    if (temp.contains("?")) {
+                                        temp = temp.replace("?", "");
                                     }
                                     String arg = "\"SouthPark " + currSeason + "." + currEpisode + " - " + temp + " (German).mkv\"";
                                     lastFileNames.add(arg);
@@ -370,7 +387,7 @@ class Downloader {
                                 uriMKVE = getJarURI();
                                 exeMKVE = getFile(uriMKVE, "res/mkvextract.exe");
                                 String tempExtr = lastFileNames.get(1).replace(".mkv", ".ogg");
-                                tempExtr = tempExtr.replaceAll(" ", ".");
+                                tempExtr = tempExtr.replace(" ", ".");
                                 lastFileNames.add(tempExtr);
                                 process2 = new ProcessBuilder(new File(exeMKVE).getAbsolutePath(), "tracks", lastFileNames.get(1), "1:" + lastFileNames.get(2)).start();
                                 is2 = process2.getInputStream();
@@ -395,48 +412,50 @@ class Downloader {
                             }
                             System.out.println(line);
                         }
+                        if (!skip) {
 
+                            Process process2 = null;
+                            try {
+                                final URI uriMKVM;
+                                final URI exeMKVM;
 
-                        Process process2 = null;
-                        try {
-                            final URI uriMKVM;
-                            final URI exeMKVM;
+                                uriMKVM = getJarURI();
+                                exeMKVM = getFile(uriMKVM, "res/mkvmerge.exe");
+                                String fileName = lastFileNames.get(0).replace("(English)", "(" + languageStr + ")");
+                                System.out.println(fileName);
+                                process2 = new ProcessBuilder(new File(exeMKVM).getAbsolutePath(), "-o", fileName, "--language", "0:eng", lastFileNames.get(0), "--language", "0:de", lastFileNames.get(2)).start();
 
-                            uriMKVM = getJarURI();
-                            exeMKVM = getFile(uriMKVM, "res/mkvmerge.exe");
-                            String fileName = lastFileNames.get(0).replace("(English)", "(" + languageStr + ")");
-                            System.out.println(fileName);
-                            process2 = new ProcessBuilder(new File(exeMKVM).getAbsolutePath(), "-o", fileName, "--language", "0:eng", lastFileNames.get(0), "--language", "0:de", lastFileNames.get(2)).start();
-
-                        } catch (IOException ex) {
-                            StringWriter errors = new StringWriter();
-                            ex.printStackTrace(new PrintWriter(errors));
-                            JOptionPane.showMessageDialog(null, "" + errors.toString());
-                        }
-                        InputStream is2 = process2.getInputStream();
-                        InputStreamReader isr2 = new InputStreamReader(is2);
-                        BufferedReader br2 = new BufferedReader(isr2);
-                        String line2;
-
-                        try {
-                            while ((line2 = br2.readLine()) != null) {
-                                System.out.println(line2);
-                                toConsole = line2;
-                                Platform.runLater(() -> {
-                                    if (!toConsole.equals("")) {
-                                        console.appendText(toConsole + "\n");
-                                    }
-                                });
+                            } catch (IOException ex) {
+                                StringWriter errors = new StringWriter();
+                                ex.printStackTrace(new PrintWriter(errors));
+                                JOptionPane.showMessageDialog(null, "" + errors.toString());
                             }
-                        } catch (IOException ex) {
-                            StringWriter errors = new StringWriter();
-                            ex.printStackTrace(new PrintWriter(errors));
-                            JOptionPane.showMessageDialog(null, "" + errors.toString());
-                        }
+                            InputStream is2 = process2.getInputStream();
+                            InputStreamReader isr2 = new InputStreamReader(is2);
+                            BufferedReader br2 = new BufferedReader(isr2);
+                            String line2;
 
-                        Files.delete(Paths.get(new File(lastFileNames.get(2).replace("\"", "")).getAbsolutePath()));
-                        Files.delete(Paths.get(new File(lastFileNames.get(1).replace("\"", "")).getAbsolutePath()));
-                        Files.delete(Paths.get(new File(lastFileNames.get(0).replace("\"", "")).getAbsolutePath()));
+                            try {
+                                while ((line2 = br2.readLine()) != null) {
+                                    System.out.println(line2);
+                                    toConsole = line2;
+                                    Platform.runLater(() -> {
+                                        if (!toConsole.equals("")) {
+                                            console.appendText(toConsole + "\n");
+                                        }
+                                    });
+                                }
+                            } catch (IOException ex) {
+                                StringWriter errors = new StringWriter();
+                                ex.printStackTrace(new PrintWriter(errors));
+                                JOptionPane.showMessageDialog(null, "" + errors.toString());
+                            }
+
+                            Files.delete(Paths.get(new File(lastFileNames.get(2).replace("\"", "")).getAbsolutePath()));
+                            Files.delete(Paths.get(new File(lastFileNames.get(1).replace("\"", "")).getAbsolutePath()));
+                            Files.delete(Paths.get(new File(lastFileNames.get(0).replace("\"", "")).getAbsolutePath()));
+                        }
+                        skip = false;
                     }
                 } catch (IOException ignored) {
 
