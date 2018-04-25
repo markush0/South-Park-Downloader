@@ -16,6 +16,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        System.out.println(System.getProperty("os.name"));
         stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("Downloader.fxml"));
         primaryStage.getIcons().add(new Image("res/icon.png"));

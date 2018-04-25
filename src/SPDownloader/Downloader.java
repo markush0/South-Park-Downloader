@@ -55,14 +55,14 @@ class Downloader {
                 String videoURL = null;
                 ArrayList<String> videoURLS = new ArrayList<>();
                 if (multiLang) {
-                    videoURLS.add("http://southpark.cc.com/full-episodes/s" + currSeason + "e" + currEpisode);
-                    videoURLS.add("http://southpark.de/alle-episoden/s" + currSeason + "e" + currEpisode);
+                    videoURLS.add("http://www.southpark.cc.com/full-episodes/s" + currSeason + "e" + currEpisode);
+                    videoURLS.add("http://www.southpark.de/alle-episoden/s" + currSeason + "e" + currEpisode);
                 } else {
                     if (languageInt == 0) {
-                        videoURL = "http://southpark.cc.com/full-episodes/s" + currSeason + "e" + currEpisode;
+                        videoURL = "http://www.southpark.cc.com/full-episodes/s" + currSeason + "e" + currEpisode;
                         System.out.println(videoURL);
                     } else {
-                        videoURL = "http://southpark.de/alle-episoden/s" + currSeason + "e" + currEpisode;
+                        videoURL = "http://www.southpark.de/alle-episoden/s" + currSeason + "e" + currEpisode;
                         System.out.println(videoURL);
                     }
                 }
@@ -75,8 +75,15 @@ class Downloader {
                         final URI exeYTDL;
 
                         uriYTDL = getJarURI();
-                        exeYTDL = getFile(uriYTDL, "res/youtube-dl.exe");
-                        Process process = new ProcessBuilder(new File(exeYTDL).getAbsolutePath(), videoURL, "--ignore-errors", "--retries", "10", "--output", "\"" + workingDirectory.toString() + "\\temp%(title)s.%(ext)s\"").start();
+
+                        Process process;
+
+                        if (System.getProperty("os.name").equals("Linux")) {
+                            process = new ProcessBuilder("youtube-dl", videoURL, "--ignore-errors", "--retries", "10", "--output", "\"" + workingDirectory.toString() + "\\temp%(title)s.%(ext)s\"").start();
+                        } else {
+                            exeYTDL = getFile(uriYTDL, "res/youtube-dl.exe");
+                            process = new ProcessBuilder(new File(exeYTDL).getAbsolutePath(), videoURL, "--ignore-errors", "--retries", "10", "--output", "\"" + workingDirectory.toString() + "\\temp%(title)s.%(ext)s\"").start();
+                        }
                         InputStream is = process.getInputStream();
                         InputStreamReader isr = new InputStreamReader(is);
                         BufferedReader br = new BufferedReader(isr);
@@ -140,7 +147,13 @@ class Downloader {
 
                                     uriMKVM = getJarURI();
                                     exeMKVM = getFile(uriMKVM, "res/mkvmerge.exe");
-                                    process2 = new ProcessBuilder(new File(exeMKVM).getAbsolutePath(), "-o", arg, arg2).start();
+
+                                    if (System.getProperty("os.name").equals("Linux")) {
+                                        process2 = new ProcessBuilder("mkvmerge", "-o", arg, arg2).start();
+                                    } else {
+                                        process2 = new ProcessBuilder(new File(exeMKVM).getAbsolutePath(), "-o", arg, arg2).start();
+                                    }
+
                                 } catch (IOException ex) {
                                     StringWriter errors = new StringWriter();
                                     ex.printStackTrace(new PrintWriter(errors));
