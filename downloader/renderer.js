@@ -2,6 +2,8 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
+const {ipcRenderer} = require('electron');
+
 let seasons = document.querySelectorAll('.season')
 for(let i = 0; i < seasons.length; i++){
     seasons[i].addEventListener('click', function (event) {
@@ -15,3 +17,7 @@ for(let i = 0; i < episodes.length; i++){
         console.log(event.srcElement.innerHTML);
     })
 }
+
+document.querySelector('#database-editor').addEventListener('click', function(event){
+    ipcRenderer.send('changeWindow', './editor/index.html');
+})
