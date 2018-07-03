@@ -1,0 +1,18 @@
+{
+  "name": "south-park-downloader",
+  "version": "0.0.1",
+  "description": "A downloader for south park episodes written in JavaScript",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/flokol120/South-Park-Downloader",
+  "keywords": [
+    "Electron"
+  ],
+  "author": "flokol120",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^2.0.0"
+  }
+}
