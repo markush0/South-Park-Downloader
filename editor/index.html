@@ -3,10 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Hello World!</title>
+  <title>South Park Downloader - Editor</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <!--<link rel="stylesheet" type="text/css" href="css/topcoat-desktop-dark.css">-->
-  <link rel="stylesheet" type="text/css" href="../css/bootstrap-dark.css">
+  <link rel="stylesheet" type="text/css" href="../css/dark.css">
+  <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
     crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -17,6 +17,28 @@
 
 <body style="background: #4b4d4e; color: #000;">
   <h1 style="text-align: center;">South Park Downloader - Editor</h1>
+
+  <div>
+    <form action="#" id="add-season">
+      <div class="form-group">
+        <label for="season">Season</label>
+        <input type="number" class="form-control" id="season" placeholder="Enter the season number" value="1">
+      </div>
+      <div class="form-group">
+        <label for="season">Episodes</label>
+        <input type="number" class="form-control" id="episodes" placeholder="Enter the number of episodes that are in this season" value="14">
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="english" checked>
+        <label class="form-check-label" for="english">Avalible in english</label>
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="german" checked>
+        <label class="form-check-label" for="german">Avalible in german</label>
+      </div>
+      <button type="submit" class="btn btn-primary">add</button>
+    </form>
+  </div>
 
   <div class="navigation">
     <button id="downloader">Downloader</button>
