@@ -16,8 +16,8 @@ submitFormButton.addEventListener('submit', event => {
     event.preventDefault();
     let season = document.getElementById('season').value;
     let episodes = document.getElementById('episodes').value;
-    let german = document.getElementById('german').value == 'on';
-    let english = document.getElementById('english').value == 'on';
+    let german = document.getElementById('german').checked;
+    let english = document.getElementById('english').checked;
     addSeason(currentWindow, season, episodes, german, english)
 })
 
