@@ -25,6 +25,21 @@ ipcMain.on('changeWindow', (event, arg) => {
   mainWindow.loadFile(arg)
 })
 
+ipcMain.on('getSeasons', function (event, arg) {
+  return new Promise(resolve => {
+    fs.readFile('seasons.json', 'utf8', function (err, data) {
+      if (err) throw err;
+      let obj = JSON.parse(data).seasons
+      let seasons = []
+      for (let i = 0; i < obj.length; i++) {
+        seasons.push(obj[i].season);
+      }
+      console.log(seasons);
+      resolve(seasons);
+    });
+  })
+})
+
 app.on('ready', createWindow)
 
 app.on('window-all-closed', function () {
@@ -38,6 +53,18 @@ app.on('activate', function () {
     createWindow()
   }
 })
+
+exports.getSeasons = function getSeasons(targetWindow) {
+  fs.readFile('seasons.json', 'utf8', function (err, data) {
+    if (err) throw err;
+    let obj = JSON.parse(data).seasons
+    let seasons = []
+    for (let i = 0; i < obj.length; i++) {
+      seasons.push(obj[i].season);
+    }
+    targetWindow.webContents.send('seasons', seasons)
+  });
+}
 
 exports.addSeason = function addSeason(targetWindow, season, episodes, german, english) {
   var raw = {
@@ -73,7 +100,7 @@ function addObjToJson(obj, file, callback) {
 }
 
 exports.download = function download(targetWindow, season, episode, german, english) {
-  downloader.downloadEpisode(season, episode, german, english, downloadPath, function(){
-    
+  downloader.downloadEpisode(season, episode, german, english, downloadPath, function () {
+
   })
 }

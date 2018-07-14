@@ -11,9 +11,7 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
     if (season < 10) {
         season = '0' + season
     }
-
-
-
+    
     if (german && english) {
 
     } else {
@@ -23,7 +21,7 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
         } else {
             episodeLink = germanLink + season + 'e' + episode
         }
-        
+
         let [dataDownload, errorDownload, filenames, episodeName, code] = await download(episodeLink, path, "temp%(title)s.%(ext)s", season, episode)
 
         if (code == 0) {

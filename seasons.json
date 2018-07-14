@@ -1,1 +1,22 @@
-{"seasons":[{"season":"1","episodes":"14","german":true,"english":true},{"season":"1","episodes":"14","german":true,"english":true}]}
+{
+    "seasons": [
+        {
+            "season": "1",
+            "episodes": "14",
+            "german": true,
+            "english": true
+        },
+        {
+            "season": "2",
+            "episodes": "14",
+            "german": true,
+            "english": true
+        },
+        {
+            "season": "3",
+            "episodes": "14",
+            "german": true,
+            "english": true
+        }
+    ]
+}
