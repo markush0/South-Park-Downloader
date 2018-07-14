@@ -6,6 +6,7 @@ const { ipcRenderer, remote } = require('electron');
 const { addSeason } = remote.require('./main');
 const currentWindow = remote.getCurrentWindow();
 
+
 const submitFormButton = document.querySelector("#add-season");
 
 document.querySelector('#downloader').addEventListener('click', function (event) {

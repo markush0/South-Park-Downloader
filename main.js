@@ -1,5 +1,11 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const fs = require('fs');
+const downloader = require('./utils/downloader');
+const ytdl = require('youtube-dl')
+var path = require('path');
+
+
+const downloadPath = app.getAppPath() + '/downloads/'
 
 let mainWindow
 
@@ -63,5 +69,11 @@ function addObjToJson(obj, file, callback) {
         callback();
       });
     });
+  })
+}
+
+exports.download = function download(targetWindow, season, episode, german, english) {
+  downloader.downloadEpisode(season, episode, german, english, downloadPath, function(){
+    
   })
 }
