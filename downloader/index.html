@@ -17,157 +17,47 @@
 </head>
 
 <body style="background: #4b4d4e; color: #000;">
-  <div id="content">
+  <div id="content" style="margin: 0; padding: 0;">
     <h1 style="text-align: center;">South Park Downloader</h1>
     <div>
-      <ul class="season-selector">
+      <ul class="season-selector" style="overflow: hidden; overflow-y: scroll; width: 8em; padding-left: 0.5em;">
         <div class="season-placeholder"></div>
       </ul>
     </div>
-  </div>
 
-  <div>
-    <ul class="episode-selector list">
-        <div class="episode-placeholder"></div>
-    </ul>
-  </div>
-  <!--<div>
-      <ul class="episode-selector list">
-        <span class="line">
-          <ul class="episode">Episode 1</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 2</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 3</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 4</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 5</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 1</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 2</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 3</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 4</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 5</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 1</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 2</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 3</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 4</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 5</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 1</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 2</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 3</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 4</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 5</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 1</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 2</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 3</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 4</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-        <span class="line">
-          <ul class="episode">Episode 5</ul>
-          <input type="checkbox" class="download-checkbox center">
-        </span>
-      </ul>
-    </div>-->
-
-  <!--<div class="navigation">
     <div>
-      <form action="#" id="download">
-        <div class="form-group">
-          <label for="season">Season</label>
-          <input type="number" class="form-control" id="season" placeholder="Enter the season number" value="1">
-        </div>
-        <div class="form-group">
-          <label for="episode">Episode</label>
-          <input type="number" class="form-control" id="episode" placeholder="Enter the number of episodes that are in this season"
-            value="1">
-        </div>
-        <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="english" checked>
-          <label class="form-check-label" for="english">Avalible in english</label>
-        </div>
-        <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="german" checked>
-          <label class="form-check-label" for="german">Avalible in german</label>
-        </div>
-        <button type="submit" class="btn btn-primary">download</button>
-      </form>
+      <ul class="episode-selector list" style="padding-left: 1em;">
+        <div class="episode-placeholder"></div>
+        <button type="submit" class="btn btn-primary select-all" style="margin-left: 1.5em; margin-top: 1em;">select all</button>
+        <button type="submit" class="btn btn-primary deselect-all" style="margin-left: 1.5em; margin-top: 1em;">deselect all</button>
+      </ul>
     </div>
 
-    <button type="button" class="btn btn-primary" id="database-editor">Database Editor</button>
-  </div>-->
+    <div class="navigation line">
+      <div>
+        <form action="#" id="download" class="line">
+            <div class="form-group form-check" style="margin-top: 5%; margin-right: 0.5em;">
+              <input type="checkbox" class="form-check-input" id="english" checked>
+              <label class="form-check-label" for="english">english</label>
+            </div>
+            <div class="form-group form-check" style="margin-top: 5%; margin-right: 1em;">
+              <input type="checkbox" class="form-check-input" id="german">
+              <label class="form-check-label" for="german">german</label>
+            </div>
+          <button type="submit" class="btn btn-primary nav-btn">download</button>
+        </form>
+      </div>
+  
+      <button type="button" class="btn btn-primary nav-btn" id="database-editor" style="margin-left: 2em;">Database Editor</button>
+    </div>
+  </div>
+
   </div>
 
 
   <script id="season-template" type="text/x-handlebars-template">
     <a>
-      <li class="season">Season {{season}}</li>
+      <li class="season btn btn-primary" style="margin-bottom: 0.5em;">Season {{season}}</li>
     </a>
   </script>
 
@@ -175,7 +65,7 @@
   <script id="episode-template" type="text/x-handlebars-template">
     <span class="line">
       <ul class="episode">Episode {{episode}}</ul>
-      <input type="checkbox" class="download-checkbox center">
+      <input type="checkbox" class="download-checkbox">
     </span>
   </script>
 

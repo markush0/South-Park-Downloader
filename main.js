@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const fs = require('fs');
-const downloader = require('./utils/downloader');
+const { downloadEpisode } = require('./utils/downloader');
 const ytdl = require('youtube-dl')
 var path = require('path');
 
@@ -75,7 +75,7 @@ exports.getEpisodes = async function getEpisodes(season, callback) {
     let english;
     for (let i = 0; i < obj.length; i++) {
       if (obj[i].season == season) {
-        episodes = obj[i].episodes
+        episodes = parseInt(obj[i].episodes)
         german = obj[i].german
         english = obj[i].english
         break;
@@ -118,8 +118,8 @@ function addObjToJson(obj, file, callback) {
   })
 }
 
-exports.download = function download(targetWindow, season, episode, german, english) {
-  downloader.downloadEpisode(season, episode, german, english, downloadPath, function () {
-
-  })
+exports.download = function download(targetWindow, season, episode, german, english, callback) {
+  downloadEpisode(season, episode, german, english, downloadPath, (dataDownload, errorDownload, dataMerge, errorMerge, episodeName) => {
+    callback(dataDownload, errorDownload, dataMerge, errorMerge, episodeName)
+  });
 }

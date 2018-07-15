@@ -11,7 +11,7 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
     if (season < 10) {
         season = '0' + season
     }
-    
+
     if (german && english) {
 
     } else {
@@ -26,13 +26,15 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
 
         if (code == 0) {
             let [dataMerge, errorMerge] = await merge(filenames, path, episodeName, season, episode)
-            
+
             await deleteFiles(filenames)
+
+            callback(dataDownload, errorDownload, dataMerge, errorMerge, episodeName)
         }
     }
 }
 
-function download(link, path, output, season, episode) {
+async function download(link, path, output, season, episode) {
     return new Promise((resolve, reject) => {
         let command = spawn(`youtube-dl`, [link, '--newline', '--print-json', '-o', path + output])
 
@@ -71,7 +73,7 @@ function download(link, path, output, season, episode) {
     })
 }
 
-function merge(filenames, path, episodeName, season, episode) {
+async function merge(filenames, path, episodeName, season, episode) {
     return new Promise(resolve => {
         var files = []
 
