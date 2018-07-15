@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "bootstrap": "^4.1.1",
-    "handlebars": "^4.0.11",
-    "youtube-dl": "^1.12.2"
+    "handlebars": "^4.0.11"
   }
 }
