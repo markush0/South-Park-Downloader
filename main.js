@@ -66,6 +66,25 @@ exports.getSeasons = function getSeasons(targetWindow) {
   });
 }
 
+exports.getEpisodes = async function getEpisodes(season, callback) {
+  fs.readFile('seasons.json', 'utf8', function (err, data) {
+    if (err) throw err;
+    let obj = JSON.parse(data).seasons
+    let episodes;
+    let german;
+    let english;
+    for (let i = 0; i < obj.length; i++) {
+      if (obj[i].season == season) {
+        episodes = obj[i].episodes
+        german = obj[i].german
+        english = obj[i].english
+        break;
+      }
+    }
+    callback(episodes, german, english)
+  });
+}
+
 exports.addSeason = function addSeason(targetWindow, season, episodes, german, english) {
   var raw = {
     seasons: []

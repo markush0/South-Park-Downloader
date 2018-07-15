@@ -21,42 +21,17 @@
     <h1 style="text-align: center;">South Park Downloader</h1>
     <div>
       <ul class="season-selector">
-        <div class="content-placeholder"></div>
+        <div class="season-placeholder"></div>
       </ul>
     </div>
   </div>
-  <!--<div id="content">
-    <h1 style="text-align: center;">South Park Downloader</h1>
-    <div>
-      <ul class="season-selector">
-        <a>
-          <li class="season">Season 1</li>
-        </a>
-        <a>
-          <li class="season">Season 2</li>
-        </a>
-        <a>
-          <li class="season">Season 3</li>
-        </a>
-        <a>
-          <li class="season">Season 4</li>
-        </a>
-        <a>
-          <li class="season">Season 5</li>
-        </a>
-        <a>
-          <li class="season">Season 6</li>
-        </a>
-        <a>
-          <li class="season">Season 7</li>
-        </a>
-        <a>
-          <li class="season">Season 8</li>
-        </a>
-      </ul>
-    </div>
 
-    <div>
+  <div>
+    <ul class="episode-selector list">
+        <div class="episode-placeholder"></div>
+    </ul>
+  </div>
+  <!--<div>
       <ul class="episode-selector list">
         <span class="line">
           <ul class="episode">Episode 1</ul>
@@ -194,6 +169,14 @@
     <a>
       <li class="season">Season {{season}}</li>
     </a>
+  </script>
+
+
+  <script id="episode-template" type="text/x-handlebars-template">
+    <span class="line">
+      <ul class="episode">Episode {{episode}}</ul>
+      <input type="checkbox" class="download-checkbox center">
+    </span>
   </script>
 
   <script>
