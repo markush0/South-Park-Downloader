@@ -1,7 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const fs = require('fs');
 const { downloadEpisode } = require('./utils/downloader');
-const ytdl = require('youtube-dl')
 var path = require('path');
 
 

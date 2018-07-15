@@ -1,22 +1,47 @@
 {
   "name": "south-park-downloader",
-  "version": "0.0.1",
+  "version": "2.0.2",
   "description": "A downloader for south park episodes written in JavaScript",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
   },
-  "repository": "https://github.com/flokol120/South-Park-Downloader",
-  "keywords": [
-    "Electron"
-  ],
-  "author": "flokol120",
-  "license": "CC0-1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flokol120/South-Park-Downloader.git"
+  },
+  "author": {
+    "name": "Florian Dörr",
+    "email": "flo@xn--drr-sna.site"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/flokol120/South-Park-Downloader/issues"
+  },
+  "homepage": "https://dörr.site",
   "devDependencies": {
+    "electron-builder": "^20.10.0",
     "electron": "^2.0.0"
   },
   "dependencies": {
     "bootstrap": "^4.1.1",
     "handlebars": "^4.0.11"
+  },
+  "build": {
+    "appId": "site.dörr.south-park-downloader",
+    "mac": {
+      "category": "public.app-category.utilities",
+      "icon": "./img/icon.png"
+    },
+    "win": {
+      "target": "zip"
+    },
+    "linux": {
+      "target": "tar.gz"
+    }
   }
 }
+
