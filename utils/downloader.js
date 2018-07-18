@@ -1,5 +1,6 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
+const os = require('os').platform;
 
 const germanLink = 'https://www.southpark.de/alle-episoden/s'
 const englishLink = 'https://southpark.cc.com/full-episodes/s'
@@ -24,7 +25,7 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
 
         let [dataDownload, errorDownload, filenames, episodeName, code] = await download(episodeLink, path, "temp%(title)s.%(ext)s", season, episode)
 
-        if (code == 0) {
+        if (code == 0 || code == 1) {
             let [dataMerge, errorMerge] = await merge(filenames, path, episodeName, season, episode)
 
             await deleteFiles(filenames)
@@ -36,7 +37,12 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
 
 async function download(link, path, output, season, episode) {
     return new Promise((resolve, reject) => {
-        let command = spawn(`youtube-dl`, [link, '--newline', '--print-json', '-o', path + output])
+        let command;
+        if(os == 'linux'){
+            command = spawn(`youtube-dl`, [link, '--newline', '--print-json', '-o', path + output])
+        }else{
+            command = spawn(path.replace('\\downloads\\', '\\') + `youtube-dl.exe`, [link, '--newline', '--print-json', '-o', path + output])
+        }
 
         let data = '';
         let filenames = []
@@ -95,8 +101,12 @@ async function merge(filenames, path, episodeName, season, episode) {
 
         console.log(args);
 
-
-        var command = spawn(`mkvmerge`, args)
+        let command;
+        if(os == 'linux'){
+            command = spawn(`mkvmerge`, args)
+        }else{
+            command = spawn(path.replace('\\downloads\\', '\\') + 'mkvmerge.exe', args)
+        }
 
         var data = '';
         command.stdout.setEncoding('utf8');

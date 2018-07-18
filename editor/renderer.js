@@ -5,12 +5,17 @@
 const { ipcRenderer, remote } = require('electron');
 const { addSeason } = remote.require('./main');
 const currentWindow = remote.getCurrentWindow();
+const os = require('os').platform;
 
 
 const submitFormButton = document.querySelector("#add-season");
 
 document.querySelector('#downloader').addEventListener('click', function (event) {
-    ipcRenderer.send('changeWindow', './downloader/index.html');
+    if(os == 'linux'){
+        ipcRenderer.send('changeWindow', './downloader/index.html');
+    }else{
+        ipcRenderer.send('changeWindow', '.\\downloader\\index.html');
+    }
 })
 
 submitFormButton.addEventListener('submit', event => {

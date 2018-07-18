@@ -2,3 +2,5 @@ node_modules
 downloads
 package-lock.json
 dist
+mkvmerge.exe
+youtube-dl.exe

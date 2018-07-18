@@ -3,8 +3,9 @@
 // All of the Node.js APIs are available in this process.
 
 const { ipcRenderer, remote } = require('electron');
-const { download, getSeasons, getEpisodes } = remote.require('./main');
+const { getSeasons, getEpisodes, download } = remote.require('./main');
 const currentWindow = remote.getCurrentWindow();
+const os = require('os').platform;
 
 let selectedEpisodes = {
     seasons: []
@@ -34,25 +35,24 @@ for(let i = 0; i < episodes.length; i++){
 }**/
 
 document.querySelector('#database-editor').addEventListener('click', function (event) {
-    ipcRenderer.send('changeWindow', './editor/index.html');
+    if(os == 'linux'){
+        ipcRenderer.send('changeWindow', './editor/index.html');
+    }else{
+        ipcRenderer.send('changeWindow', '.\\editor\\index.html');
+    }
 })
 
 submitFormButton.addEventListener('submit', event => {
     event.preventDefault();
     let german = document.getElementById('german').checked;
     let english = document.getElementById('english').checked;
-    for (let i = 0; i < selectedEpisodes.seasons.length; i++) {
-        let season = selectedEpisodes.seasons[i].season
-        for (let j = 0; j < selectedEpisodes.seasons[i].episodes.length; j++) {
-            download(currentWindow, season, selectedEpisodes.seasons[i].episodes[j], german, english, (dataDownload, errorDownload, dataMerge, errorMerge, episodeName) => {
-                console.log(dataDownload);
-                console.log(errorDownload);
-                console.log(dataMerge);
-                console.log(errorMerge);
-                console.log(episodeName);
-            })
-        }
-    }
+    download(selectedEpisodes, german, english, (dataDownload, errorDownload, dataMerge, errorMerge, episodeName) => {
+        console.log(dataDownload);
+        console.log(errorDownload);
+        console.log(dataMerge);
+        console.log(errorMerge);
+        console.log(episodeName);
+    })
 })
 
 ipcRenderer.on('form-received', function (event, args) {
