@@ -1,6 +1,6 @@
 {
   "name": "south-park-downloader",
-  "version": "2.0.2",
+  "version": "2.0.0",
   "description": "A downloader for south park episodes written in JavaScript",
   "main": "main.js",
   "scripts": {
@@ -35,15 +35,26 @@
   },
   "build": {
     "appId": "site.dörr.south-park-downloader",
+    "productName": "South Park Downloader",
+    "extraFiles": [
+      "img/256x256.png",
+      "img/icon.ico",
+      "seasons.json"
+    ],
+    "directories": {
+      "buildResources": "resources"
+    },
     "mac": {
       "category": "public.app-category.utilities",
-      "icon": "./img/icon.png"
+      "icon": "./img/256x256.png"
     },
     "win": {
-      "target": "zip"
+      "target": "zip",
+      "icon": "img/icon.ico"
     },
     "linux": {
-      "target": "tar.gz"
+      "target": "tar.gz",
+      "icon": "img/256x256.png"
     }
   }
 }
