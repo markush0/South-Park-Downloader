@@ -3,7 +3,7 @@ const fs = require('fs');
 const { downloadEpisode } = require('./utils/downloader');
 const isDev = require('electron-is-dev');
 const os = require('os').platform
-var path = require('path');
+const path = require('path');
 
 let downloadPath = '';
 if(os == 'linux'){
@@ -112,10 +112,10 @@ exports.getEpisodes = async function getEpisodes(season, callback) {
 }
 
 exports.addSeason = function addSeason(targetWindow, season, episodes, german, english) {
-  var raw = {
+  let raw = {
     seasons: []
   }
-  var obj = {
+  let obj = {
     season: season,
     episodes: episodes,
     german: german,
@@ -135,7 +135,7 @@ function addObjToJson(obj, file, callback) {
       if (err) throw err;
       let exsObj = JSON.parse(data)
       exsObj.seasons.push(obj)
-      var json = JSON.stringify(exsObj)
+      let json = JSON.stringify(exsObj)
       fs.writeFile(file, json, 'utf8', function (err) {
         if (err) throw err;
         callback();

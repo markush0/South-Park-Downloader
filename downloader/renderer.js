@@ -27,13 +27,6 @@ getSeasons(currentWindow)
 
 const submitFormButton = document.querySelector("#download");
 
-/**let episodes = document.querySelectorAll('.episode')
-for(let i = 0; i < episodes.length; i++){
-    episodes[i].addEventListener('click', function (event) {
-        console.log(event.srcElement.innerHTML);
-    })
-}**/
-
 document.querySelector('#database-editor').addEventListener('click', function (event) {
     if(os == 'linux'){
         ipcRenderer.send('changeWindow', './editor/index.html');

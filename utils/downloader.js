@@ -50,7 +50,7 @@ async function download(link, path, output, season, episode) {
         command.stdout.setEncoding('utf8');
         command.stdout.on('data', (chunk) => {
             data += chunk;
-            var obj = JSON.parse(chunk)
+            let obj = JSON.parse(chunk)
             filenames.push(obj._filename);
             episodeName = obj.playlist
             console.log(episodeName);
@@ -81,7 +81,7 @@ async function download(link, path, output, season, episode) {
 
 async function merge(filenames, path, episodeName, season, episode) {
     return new Promise(resolve => {
-        var files = []
+        let files = []
 
         for (let i = 0; i < filenames.length; i++) {
             if (i == 0) {
@@ -91,7 +91,7 @@ async function merge(filenames, path, episodeName, season, episode) {
             }
         }
 
-        var args = files
+        let args = files
 
         console.log(episodeName);
 
@@ -108,14 +108,14 @@ async function merge(filenames, path, episodeName, season, episode) {
             command = spawn(path.replace('\\downloads\\', '\\') + 'mkvmerge.exe', args)
         }
 
-        var data = '';
+        let data = '';
         command.stdout.setEncoding('utf8');
         command.stdout.on('data', (chunk) => {
             data += chunk;
             console.log(data);
         })
 
-        var error = ''
+        let error = ''
         command.stderr.on('data', (chunk) => {
             error += chunk
             console.log(error);
