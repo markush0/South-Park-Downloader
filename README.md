@@ -5,7 +5,7 @@
 ### What is this repository for? ###
 This is a downloader for South Park Episodes from the official website.
 
-It is currently in it's early state.
+It is currently in its early state.
 
 ------------------------------------
 
