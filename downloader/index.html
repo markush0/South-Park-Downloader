@@ -26,29 +26,45 @@
     </div>
 
     <div>
-      <ul class="episode-selector list" style="padding-left: 1em;">
+      <ul class="episode-selector list" style="padding-left: 1em; padding-bottom: 1em; overflow: hidden; overflow-y: scroll; height: 65%;">
         <div class="episode-placeholder"></div>
-        <button type="submit" class="btn btn-primary select-all" style="margin-left: 1.5em; margin-top: 1em;">select all</button>
-        <button type="submit" class="btn btn-primary deselect-all" style="margin-left: 1.5em; margin-top: 1em;">deselect all</button>
+        <button type="submit" class="btn btn-primary select-all" style="margin-left: 1.5em; margin-top: 1em;">select
+          all</button>
+        <button type="submit" class="btn btn-primary deselect-all" style="margin-left: 1.5em; margin-top: 1em;">deselect
+          all</button>
       </ul>
     </div>
 
     <div class="navigation line">
       <div>
         <form action="#" id="download" class="line">
-            <div class="form-group form-check" style="margin-top: 5%; margin-right: 0.5em;">
-              <input type="checkbox" class="form-check-input" id="english" checked>
-              <label class="form-check-label" for="english">english</label>
-            </div>
-            <div class="form-group form-check" style="margin-top: 5%; margin-right: 1em;">
-              <input type="checkbox" class="form-check-input" id="german">
-              <label class="form-check-label" for="german">german</label>
-            </div>
+          <div class="form-group form-check" style="margin-top: 5%; margin-right: 0.5em;">
+            <input type="checkbox" class="form-check-input" id="english" checked>
+            <label class="form-check-label" for="english">english</label>
+          </div>
+          <div class="form-group form-check" style="margin-top: 5%; margin-right: 1em;">
+            <input type="checkbox" class="form-check-input" id="german">
+            <label class="form-check-label" for="german">german</label>
+          </div>
           <button type="submit" class="btn btn-primary nav-btn">download</button>
         </form>
       </div>
-  
-      <button type="button" class="btn btn-primary nav-btn" id="database-editor" style="margin-left: 2em;">Database Editor</button>
+
+      <button type="button" class="btn btn-primary nav-btn" id="database-editor" style="margin-left: 2em;">Database
+        Editor</button>
+      <div style="width: 100%; margin-top: 2%;">
+        <div class="progress" id="progress">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0"
+            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+      <div style="width: 100%; margin-top: 2%;">
+        <p>current speed:</p>
+        <b id="speed"></b>
+        <br />
+        <p>time left:</p>
+        <b id="eta"></b>
+      </div>
     </div>
   </div>
 

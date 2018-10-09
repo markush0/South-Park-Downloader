@@ -1,18 +1,24 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const {
+  app,
+  BrowserWindow,
+  ipcMain
+} = require('electron')
 const fs = require('fs');
-const { downloadEpisode } = require('./utils/downloader');
+const {
+  downloadEpisode
+} = require('./utils/downloader');
 const isDev = require('electron-is-dev');
 const os = require('os').platform
 const path = require('path');
 
 let downloadPath = '';
-if(os == 'linux'){
+if (os == 'linux') {
   if (isDev) {
     downloadPath = app.getAppPath() + '/downloads/'
   } else {
     downloadPath = app.getAppPath().replace('/resources/app.asar', '') + '/downloads/'
   }
-}else{
+} else {
   if (isDev) {
     downloadPath = app.getAppPath() + '\\downloads\\'
     console.log(downloadPath);
@@ -24,19 +30,19 @@ if(os == 'linux'){
 let mainWindow
 
 function createWindow() {
-  mainWindow = new BrowserWindow({ 
-    width: 800, 
-    height: 600,
+  mainWindow = new BrowserWindow({
+    width: 1000,
+    height: 800,
     icon: 'img/256x256.png'
   })
 
-  if(os == 'linux'){
+  if (os == 'linux') {
     mainWindow.loadFile('./downloader/index.html')
-  }else{
+  } else {
     mainWindow.loadFile('.\\downloader\\index.html')
   }
 
-  
+
 
   if (isDev) {
     mainWindow.webContents.openDevTools()
@@ -60,7 +66,6 @@ ipcMain.on('getSeasons', function (event, arg) {
       for (let i = 0; i < obj.length; i++) {
         seasons.push(obj[i].season);
       }
-      console.log(seasons);
       resolve(seasons);
     });
   })
@@ -144,19 +149,24 @@ function addObjToJson(obj, file, callback) {
   })
 }
 
-exports.download = function download(selectedEpisodes, german, english, callback) {
-  if(selectedEpisodes.seasons[0].episodes.length == 0){
-    selectedEpisodes.seasons.splice(0, 1)
-  }
-  let season = selectedEpisodes.seasons[0].season
-  let episode = selectedEpisodes.seasons[0].episodes[0]
-  selectedEpisodes.seasons[0].episodes.splice(0, 1)
-  downloadEpisode(season, episode, german, english, downloadPath, (dataDownload, errorDownload, dataMerge, errorMerge, episodeName) => {
-    if(selectedEpisodes.seasons.length != 0){
-      download(selectedEpisodes, german, english, callback)
+exports.download = function download(selectedEpisodes, german, english, callback, progressCallback, chunksCallback, currentChunkCallback, mergingCallback) {
+  try {
+    if (selectedEpisodes.seasons[0].episodes.length == 0) {
+      selectedEpisodes.seasons.splice(0, 1)
     }
-    callback(dataDownload, errorDownload, dataMerge, errorMerge, episodeName)
-  })
+    let season = selectedEpisodes.seasons[0].season
+    let episode = selectedEpisodes.seasons[0].episodes[0]
+    selectedEpisodes.seasons[0].episodes.splice(0, 1)
+    downloadEpisode(season, episode, german, english, downloadPath, (dataDownload, errorDownload, dataMerge, errorMerge, episodeName) => {
+      if (selectedEpisodes.seasons.length != 0) {
+        download(selectedEpisodes, german, english, callback, progressCallback, chunksCallback, currentChunkCallback, mergingCallback)
+      }
+      callback(dataDownload, errorDownload, dataMerge, errorMerge, episodeName)
+    }, progressCallback, chunksCallback, currentChunkCallback, mergingCallback)
+  } catch (error) {
+
+  }
+
   /*for (let i = 0; i < selectedEpisodes.seasons.length; i++) {
     let season = selectedEpisodes.seasons[i].season
     for (let j = 0; j < selectedEpisodes.seasons[i].episodes.length; j++) {

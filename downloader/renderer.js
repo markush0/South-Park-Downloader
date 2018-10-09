@@ -22,6 +22,18 @@ let episodeTemplateScript = $('#episode-template').html();
 
 let episodeTemplate = Handlebars.compile(episodeTemplateScript);
 
+let progessBar = document.getElementById("progress").children[0];
+let speedText = document.getElementById("speed");
+let etaText = document.getElementById("eta");
+
+let downloadChunks = 0;
+
+let currentChunk = 0;
+
+let selectedEpisodesCount = 0;
+
+let downloadCounter = 1;
+
 getSeasons(currentWindow)
 
 
@@ -45,6 +57,23 @@ submitFormButton.addEventListener('submit', event => {
         console.log(dataMerge);
         console.log(errorMerge);
         console.log(episodeName);
+        setProgress(0)
+        speedText.innerText = ""
+        etaText.innerText = ""
+        selectedEpisodesCount--;
+    }, (progress, speed, eta) => {
+        setProgress(progress)
+        if(speed.length < 10 && eta.length < 10){
+            speedText.innerText = speed
+            etaText.innerText = eta
+        }
+    }, (chunks) => {
+        downloadChunks = chunks
+    }, (cc) => {
+        currentChunk = cc
+    }, () => {
+        speedText.innerText = `merging the ${downloadChunks} chunks into one file...`
+        etaText.innerText = ""
     })
 })
 
@@ -64,6 +93,16 @@ ipcRenderer.on('seasons', function (event, args) {
     }
     addSeasonOnClick();
 });
+
+function setProgress(progress,){
+    progessBar.setAttribute("style", `width: ${progress}%`)
+    progessBar.setAttribute("aria-valuenow", progress)
+    if(progress != 0){
+        progessBar.innerText = `${progress}% - ${currentChunk} chunks - ${selectedEpisodesCount} eps left`
+    }else{
+        progessBar.innerText = ""
+    }
+}
 
 function addSeasonOnClick() {
     let seasons = document.querySelectorAll('.season')
@@ -172,12 +211,14 @@ function addEpisodeToList(episode, season) {
         selectedEpisodes.seasons.push(obj)
     }
     if (episodeInList(season, episode)) {
+        selectedEpisodesCount--;
         for (let k = 0; k < selectedEpisodes.seasons.length; k++) {
             if (selectedEpisodes.seasons[k].season == season) {
                 selectedEpisodes.seasons[k].episodes.splice(selectedEpisodes.seasons[k].episodes.indexOf(episode), 1)
             }
         }
     } else {
+        selectedEpisodesCount++;
         for (let k = 0; k < selectedEpisodes.seasons.length; k++) {
             if (selectedEpisodes.seasons[k].season == season) {
                 selectedEpisodes.seasons[k].episodes.push(episode)
@@ -200,6 +241,7 @@ function episodeInList(season, episode) {
 }
 
 function removeAllEpisodesFromList(season) {
+    selectedEpisodesCount = 0;
     for (let i = 0; i < selectedEpisodes.seasons.length; i++) {
         if (selectedEpisodes.seasons[i].season == season) {
             selectedEpisodes.seasons[i].episodes = []
@@ -209,6 +251,7 @@ function removeAllEpisodesFromList(season) {
 
 function addAllEpisodesToList(episodes, season) {
     for (let i = 1; i <= episodes; i++) {
+        selectedEpisodesCount++;
         episode = i
         season = parseInt(season)
         if (!seasonInList(season)) {
