@@ -23,7 +23,7 @@ Just visit the [Releases](https://github.com/flokol120/South-Park-Downloader/rel
 
 1. grab the newest compiled version from the [Releases](https://github.com/flokol120/South-Park-Downloader/releases/).
 2. extract the archive.
-3. install youtube-dl and mkvmerge (Debian: `apt-get install youtube-dl mkvtoolnix libav-tools python3 rtmpdump -y`, Ubuntu: `sudo apt-get youtube-dl mkvtoolnix libav-tools python3 rtmpdump -y`)
+3. install youtube-dl and mkvmerge (Debian: `apt-get install youtube-dl mkvtoolnix libav-tools python3 rtmpdump -y`, Ubuntu: `sudo apt install -y youtube-dl mkvtoolnix libav-tools python3 rtmpdump libgconf2-4`)
 4. make the starter executable, either the GUI way or via the terminal (Debian: `chmod a+x south-park-downloader`, Ubuntu: `sudo chmod a+x south-park-downloader`)
 
 #### Windows: ####
