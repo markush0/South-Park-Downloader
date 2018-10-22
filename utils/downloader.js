@@ -136,16 +136,13 @@ async function merge(filenames, path, episodeName, season, episode) {
             let args = files
 
             args.push('-o')
-
-            console.log(episodeName);
 		
-			var forbiddenCharacterRegex = /[\\/:"*?<>|]+/;
-			
-			if(episodeName.match(forbiddenCharacterRegex)) {
-				console.log('Filename contains illegal characters: ' + episodeName);
-				episodeName = episodeName.replace(forbiddenCharacterRegex, "_");
-				console.log('Replaced illegal characters. New filename: ' + episodeName);
-			}
+            var forbiddenCharacterRegex = /[\\/:"*?<>|]+/;
+
+            if(episodeName.match(forbiddenCharacterRegex)) {
+	        episodeName = episodeName.replace(forbiddenCharacterRegex, "_");
+	        console.log('Replaced illegal characters. New filename: ' + episodeName);
+            }
             
             args.push(`${path}SouthPark ${season}.${episode} - ${episodeName}.mkv`)
 
