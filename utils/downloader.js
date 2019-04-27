@@ -42,10 +42,12 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
 async function download(link, path, output, season, episode, progressCallback, chunksCallback, currentChunkCallback) {
     return new Promise((resolve, reject) => {
         let command;
+        var args = [link, '--newline', '--write-info-json', '-o', path + output];
+
         if (os == 'linux') {
-            command = spawn(`youtube-dl`, [link, '--newline', '--write-info-json', '-o', path + output])
+            command = spawn(`youtube-dl`, args)
         } else {
-            command = spawn(path.replace('\\downloads\\', '\\') + `youtube-dl.exe`, [link, '--newline', '--print-json', '-o', path + output])
+            command = spawn(path.replace('\\downloads\\', '\\') + `youtube-dl.exe`, args)
         }
 
         let data = '';
