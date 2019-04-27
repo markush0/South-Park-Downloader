@@ -49,9 +49,9 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
 async function getBestResolutionWidth(link, path) {
     return new Promise((resolve, reject) => {
         let command;
-        if(os == 'linux'){
+        if (os == 'linux') {
             command = spawn(`youtube-dl`, [link, '-F'])
-        }else{
+        } else {
             command = spawn(path.replace('\\downloads\\', '\\') + `youtube-dl.exe`, [link, '-F'])
         }
 
@@ -78,11 +78,10 @@ async function getBestResolutionWidth(link, path) {
 
             var allResolutions = [];
 
-            for(var i = 0;i < lines.length;i++){
+            for (var i = 0; i < lines.length; i++) {
                var line = lines[i].match(myRegexp);
 
-               if(line != null)
-               {
+               if (line != null) {
                   allResolutions.push(line[1]);
                }
             }
@@ -90,14 +89,14 @@ async function getBestResolutionWidth(link, path) {
             allResolutions = allResolutions.slice().sort();
 
             var resolutionTriplets = [];
+			
             for (var i = 0; i < allResolutions.length - 2; i++) {
                 if (allResolutions[i + 1] == allResolutions[i] && allResolutions[i + 2] == allResolutions[i]) {
                     resolutionTriplets.push(allResolutions[i]);
                 }
             }
 
-            if(resolutionTriplets.length == 0)
-            {
+            if (resolutionTriplets.length == 0) {
                 console.log('No equal resolutions for the 3 subparts could be found.' + data);
                 reject()
             }
@@ -207,7 +206,7 @@ async function getMergeMapping(filenames, path) {
         var videoId = allTrackIds[i - 1][0];
         var audioId = allTrackIds[i - 1][1];
 
-        if(allTrackIds[i][0] == videoId) {
+        if (allTrackIds[i][0] == videoId) {
             mapping += i + ':' + videoId + ':' + (i - 1) + ':' + videoId + ','
             mapping += i + ':' + audioId + ':' + (i - 1) + ':' + audioId + ','
         } else {
@@ -225,9 +224,9 @@ async function getTrackIds(filename, path) {
         let command;
         var args = ['-i', filename];
 
-        if(os == 'linux'){
+        if (os == 'linux') {
             command = spawn(`mkvmerge`, args)
-        }else{
+        } else {
             command = spawn(path.replace('\\downloads\\', '\\') + 'mkvmerge.exe', args)
         }
 
@@ -255,19 +254,18 @@ async function getTrackIds(filename, path) {
             var video;
             var audio;
 
-            for(var i = 0;i < lines.length;i++){
+            for (var i = 0; i < lines.length; i++) {
                 var line = lines[i].match(myRegexp);
 
-                if(line == null)
-                {
+                if (line == null) {
                     continue;
                 }
 
-                if(line.includes("video")){
+                if (line.includes("video")) {
                     video = line[1];
                 }
 
-                if(line.includes("audio")){
+                if (line.includes("audio")) {
                     audio = line[1];
                 }
             }
@@ -296,9 +294,9 @@ async function merge(filenames, mapping, path, episodeName, season, episode) {
 		
             var forbiddenCharacterRegex = /[\\/:"*?<>|]+/;
 
-            if(episodeName.match(forbiddenCharacterRegex)) {
-	        episodeName = episodeName.replace(forbiddenCharacterRegex, "_");
-	        console.log('Replaced illegal characters. New filename: ' + episodeName);
+            if (episodeName.match(forbiddenCharacterRegex)) {
+	            episodeName = episodeName.replace(forbiddenCharacterRegex, "_");
+	            console.log('Replaced illegal characters. New filename: ' + episodeName);
             }
             
             args.push(`${path}SouthPark ${season}.${episode} - ${episodeName}.mkv`)
