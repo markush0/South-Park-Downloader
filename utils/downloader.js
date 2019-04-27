@@ -26,7 +26,9 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
             episodeLink = germanLink + season + 'e' + episode
         }
 
-        let [dataDownload, errorDownload, filenames, episodeName, code] = await download(episodeLink, path, "temp%(title)s.%(ext)s", season, episode, progressCallback, chunksCallback, currentChunkCallback)
+        let [resolutionWidth, errorResolution] = await getBestResolutionWidth(episodeLink, path)
+
+        let [dataDownload, errorDownload, filenames, episodeName, code] = await download(episodeLink, path, "temp%(title)s.%(ext)s", season, episode, resolutionWidth, progressCallback, chunksCallback, currentChunkCallback)
 
         if (code == 0 || code == 1) {
             mergingCallback();
@@ -39,10 +41,75 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
     }
 }
 
-async function download(link, path, output, season, episode, progressCallback, chunksCallback, currentChunkCallback) {
+// the single parts are available with different resolutions. Not always the best resolution is marked as 'best'. It appears that youtube-dl takes not the best or even differnet resolutions for the part files.
+// This function detects the best available resolution width which can be passed to the download function.
+async function getBestResolutionWidth(link, path) {
     return new Promise((resolve, reject) => {
         let command;
-        var args = [link, '--newline', '--write-info-json', '-o', path + output];
+        if(os == 'linux'){
+            command = spawn(`youtube-dl`, [link, '-F'])
+        }else{
+            command = spawn(path.replace('\\downloads\\', '\\') + `youtube-dl.exe`, [link, '-F'])
+        }
+
+        let data = '';
+        command.stdout.setEncoding('utf8');
+        command.stdout.on('data', (chunk) => {
+            data += chunk;
+        })
+
+        let error = ''
+        command.stderr.on('data', (chunk) => {
+            error += chunk
+            console.log(error);
+        })
+
+        command.on('error', err => {
+            console.log(err);
+            reject()
+        })
+
+        command.on('close', (code) => {
+            var lines = data.split('\n');
+            var myRegexp = /(\d{3,4})x\d{3,4}/;
+
+            var allResolutions = [];
+
+            for(var i = 0;i < lines.length;i++){
+               var line = lines[i].match(myRegexp);
+
+               if(line != null)
+               {
+                  allResolutions.push(line[1]);
+               }
+            }
+
+            allResolutions = allResolutions.slice().sort();
+
+            var resolutionTriplets = [];
+            for (var i = 0; i < allResolutions.length - 2; i++) {
+                if (allResolutions[i + 1] == allResolutions[i] && allResolutions[i + 2] == allResolutions[i]) {
+                    resolutionTriplets.push(allResolutions[i]);
+                }
+            }
+
+            if(resolutionTriplets.length == 0)
+            {
+                console.log('No equal resolutions for the 3 subparts could be found.' + data);
+                reject()
+            }
+
+            var resolutionWidth = Math.min.apply(Math, resolutionTriplets.map(Number));
+
+            resolve([resolutionWidth, error])
+        })
+    })
+}
+
+async function download(link, path, output, season, episode, resolutionWidth, progressCallback, chunksCallback, currentChunkCallback) {
+    return new Promise((resolve, reject) => {
+        let command;
+        var args = [link, '--newline', '--write-info-json', '-o', path + output, '-f [width=' + resolutionWidth + ']'];
 
         if (os == 'linux') {
             command = spawn(`youtube-dl`, args)
