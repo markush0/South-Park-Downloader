@@ -250,7 +250,7 @@ async function getTrackIds(filename, path) {
 
         command.on('close', (code) => {
             var lines = data.split('\n');
-            var myRegexp = /Track ID (\d): (video|audio)/;
+            var myRegexp = /ID (\d): (video|audio)/;
             var video;
             var audio;
 
