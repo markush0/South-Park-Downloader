@@ -9,7 +9,7 @@ It is currently in its early state.
 
 ------------------------------------
 
-#### This tool is of course only for test and demonstration purpose and should not be used to download episodes neither from [https://www.southpark.de/](https://www.southpark.de/) nor from [https://southpark.cc.com/](https://southpark.cc.com/). ####
+#### This tool is of course only for testing and demonstration purpose and should not be used to download episodes neither from [https://www.southpark.de/](https://www.southpark.de/) nor from [https://southpark.cc.com/](https://southpark.cc.com/). ####
 
 ------------------------------------
 
