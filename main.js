@@ -8,7 +8,7 @@ const {
   downloadEpisode
 } = require('./utils/downloader');
 const isDev = require('electron-is-dev');
-const os = require('os').platform
+const os = require('os').platform;
 const path = require('path');
 
 let downloadPath = '';
@@ -23,7 +23,8 @@ if (os == 'linux') {
     downloadPath = app.getAppPath() + '\\downloads\\'
     console.log(downloadPath);
   } else {
-    downloadPath = app.getAppPath().replace('\\resources\\app.asar', '') + '\\downloads\\'
+    console.log(app.getAppPath());
+    downloadPath = app.getAppPath().replace('\\resources\\app.asar', '') + '\\downloads\\';
   }
 }
 

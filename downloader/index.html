@@ -2,93 +2,109 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>South Park Downloader</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
-  <link rel="stylesheet" type="text/css" href="../css/dark.css">
-  <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
-    crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>South Park Downloader</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dark.css">
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
 </head>
 
 <body style="background: #4b4d4e; color: #000;">
-  <div id="content" style="margin: 0; padding: 0;">
+<div id="content" style="margin: 0; padding: 0;">
     <h1 style="text-align: center;">South Park Downloader</h1>
+    <div style="margin: 10px">
+        <button type="submit" class="btn btn-primary select-all-episodes" style="margin-left: 1.5em; margin-top: 1em;">
+            select all episodes
+        </button>
+        <button type="submit" class="btn btn-primary deselect-all-episodes"
+                style="margin-left: 1.5em; margin-top: 1em;">deselect all episodes
+        </button>
+    </div>
     <div>
-      <ul class="season-selector" style="overflow: hidden; overflow-y: scroll; width: 8em; padding-left: 0.5em;">
-        <div class="season-placeholder"></div>
-      </ul>
+        <ul class="season-selector" style="overflow: hidden; overflow-y: scroll; width: 8em; padding-left: 0.5em;">
+            <div class="season-placeholder"></div>
+        </ul>
     </div>
 
     <div>
-      <ul class="episode-selector list" style="padding-left: 1em; padding-bottom: 1em; overflow: hidden; overflow-y: scroll; height: 65%;">
-        <div class="episode-placeholder"></div>
-        <button type="submit" class="btn btn-primary select-all" style="margin-left: 1.5em; margin-top: 1em;">select
-          all</button>
-        <button type="submit" class="btn btn-primary deselect-all" style="margin-left: 1.5em; margin-top: 1em;">deselect
-          all</button>
-      </ul>
+        <ul class="episode-selector list"
+            style="padding-left: 1em; padding-bottom: 1em; overflow: hidden; overflow-y: scroll; height: 65%;">
+            <div class="episode-placeholder"></div>
+            <button type="submit" class="btn btn-primary select-all" style="margin-left: 1.5em; margin-top: 1em;">select
+                all
+            </button>
+            <button type="submit" class="btn btn-primary deselect-all" style="margin-left: 1.5em; margin-top: 1em;">
+                deselect
+                all
+            </button>
+        </ul>
     </div>
 
     <div class="navigation line">
-      <div>
-        <form action="#" id="download" class="line">
-          <div class="form-group form-check" style="margin-top: 5%; margin-right: 0.5em;">
-            <input type="checkbox" class="form-check-input" id="english" checked>
-            <label class="form-check-label" for="english">english</label>
-          </div>
-          <div class="form-group form-check" style="margin-top: 5%; margin-right: 1em;">
-            <input type="checkbox" class="form-check-input" id="german">
-            <label class="form-check-label" for="german">german</label>
-          </div>
-          <button type="submit" class="btn btn-primary nav-btn">download</button>
-        </form>
-      </div>
-
-      <button type="button" class="btn btn-primary nav-btn" id="database-editor" style="margin-left: 2em;">Database
-        Editor</button>
-      <div style="width: 100%; margin-top: 2%;">
-        <div class="progress" id="progress">
-          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0"
-            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        <div>
+            <form action="#" id="download" class="line">
+                <div class="form-group form-check" style="margin-top: 5%; margin-right: 0.5em;">
+                    <input type="checkbox" class="form-check-input" id="english" checked>
+                    <label class="form-check-label" for="english">english</label>
+                </div>
+                <div class="form-group form-check" style="margin-top: 5%; margin-right: 1em;">
+                    <input type="checkbox" class="form-check-input" id="german">
+                    <label class="form-check-label" for="german">german</label>
+                </div>
+                <button type="submit" class="btn btn-primary nav-btn">download</button>
+            </form>
         </div>
-      </div>
-      <div style="width: 100%; margin-top: 2%;">
-        <p>current speed:</p>
-        <b id="speed"></b>
-        <br />
-        <p>time left:</p>
-        <b id="eta"></b>
-      </div>
+
+        <button type="button" class="btn btn-primary nav-btn" id="database-editor" style="margin-left: 2em;">Database
+            Editor
+        </button>
+        <div style="width: 100%; margin-top: 2%;">
+            <div class="progress" id="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0"
+                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+        <div style="width: 100%; margin-top: 2%;">
+            <p>current speed:</p>
+            <b id="speed"></b>
+            <br/>
+            <p>time left:</p>
+            <b id="eta"></b>
+        </div>
     </div>
-  </div>
+</div>
 
-  </div>
+</div>
 
 
-  <script id="season-template" type="text/x-handlebars-template">
+<script id="season-template" type="text/x-handlebars-template">
     <a>
-      <li class="season btn btn-primary" style="margin-bottom: 0.5em;">Season {{season}}</li>
+        <li class="season btn btn-primary" style="margin-bottom: 0.5em;">Season {{season}}</li>
     </a>
-  </script>
+</script>
 
 
-  <script id="episode-template" type="text/x-handlebars-template">
+<script id="episode-template" type="text/x-handlebars-template">
     <span class="line">
       <ul class="episode">Episode {{episode}}</ul>
       <input type="checkbox" class="download-checkbox">
     </span>
-  </script>
+</script>
 
-  <script>
+<script>
     // You can also require other files to run in this process
-    require('./renderer.js')
-  </script>
+    require('./renderer.js');
+</script>
 </body>
 
 </html>

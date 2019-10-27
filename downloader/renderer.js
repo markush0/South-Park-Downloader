@@ -2,8 +2,8 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
-const { ipcRenderer, remote } = require('electron');
-const { getSeasons, getEpisodes, download } = remote.require('./main');
+const {ipcRenderer, remote} = require('electron');
+const {getSeasons, getEpisodes, download} = remote.require('./main');
 const currentWindow = remote.getCurrentWindow();
 const os = require('os').platform;
 
@@ -40,9 +40,9 @@ getSeasons(currentWindow)
 const submitFormButton = document.querySelector("#download");
 
 document.querySelector('#database-editor').addEventListener('click', function (event) {
-    if(os == 'linux'){
+    if (os == 'linux') {
         ipcRenderer.send('changeWindow', './editor/index.html');
-    }else{
+    } else {
         ipcRenderer.send('changeWindow', '.\\editor\\index.html');
     }
 })
@@ -63,7 +63,7 @@ submitFormButton.addEventListener('submit', event => {
         selectedEpisodesCount--;
     }, (progress, speed, eta) => {
         setProgress(progress)
-        if(speed.length < 10 && eta.length < 10){
+        if (speed.length < 10 && eta.length < 10) {
             speedText.innerText = speed
             etaText.innerText = eta
         }
@@ -92,14 +92,17 @@ ipcRenderer.on('seasons', function (event, args) {
         $('.season-placeholder').append(compiledHtml);
     }
     addSeasonOnClick();
+
+    setSelectAllEpisodesListener(args);
+    setDeselectAllEpisodesListener(args);
 });
 
-function setProgress(progress,){
+function setProgress(progress,) {
     progessBar.setAttribute("style", `width: ${progress}%`)
     progessBar.setAttribute("aria-valuenow", progress)
-    if(progress != 0){
+    if (progress != 0) {
         progessBar.innerText = `${progress}% - ${currentChunk} chunks - ${selectedEpisodesCount} eps left`
-    }else{
+    } else {
         progessBar.innerText = ""
     }
 }
@@ -186,6 +189,46 @@ function setDeselectAllListener() {
             let episodesHolder = document.querySelector('.episode-placeholder')
             for (let i = 0; i < episodesHolder.children.length; i++) {
                 episodesHolder.children[i].children[1].checked = false
+            }
+        })
+    }
+}
+
+function setSelectAllEpisodesListener(args) {
+    let selectAllButtons = document.querySelectorAll('.select-all-episodes')
+    // console.log(args);
+    for (let i = 0; i < selectAllButtons.length; i++) {
+        selectAllButtons[i].addEventListener('click', event => {
+            for (const s of args) {
+                getEpisodes(parseInt(s), (episodes, german, english) => {
+                    // var log = 'S' + s + 'E' + episodes;
+                    // console.log(log);
+
+                    addAllEpisodesToList(episodes, parseInt(s));
+                    let episodesHolder = document.querySelector('.episode-placeholder')
+                    for (let i = 0; i < episodesHolder.children.length; i++) {
+                        episodesHolder.children[i].children[1].checked = true
+                    }
+                })
+            }
+        })
+    }
+}
+
+function setDeselectAllEpisodesListener(args) {
+    let deselectAllButtons = document.querySelectorAll('.deselect-all-episodes')
+    // console.log(args);
+    for (let i = 0; i < deselectAllButtons.length; i++) {
+        deselectAllButtons[i].addEventListener('click', event => {
+            for (const s of args) {
+                getEpisodes(parseInt(s), (episodes, german, english) => {
+
+                    removeAllEpisodesFromList(parseInt(s))
+                    let episodesHolder = document.querySelector('.episode-placeholder')
+                    for (let i = 0; i < episodesHolder.children.length; i++) {
+                        episodesHolder.children[i].children[1].checked = false
+                    }
+                })
             }
         })
     }

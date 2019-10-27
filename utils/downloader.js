@@ -1,6 +1,15 @@
 const {
     spawn
 } = require('child_process');
+const umlautMap = {
+    '\u00dc': 'UE',
+    '\u00c4': 'AE',
+    '\u00d6': 'OE',
+    '\u00fc': 'ue',
+    '\u00e4': 'ae',
+    '\u00f6': 'oe',
+    '\u00df': 'ss',
+}
 const fs = require('fs');
 const os = require('os').platform;
 const findRemove = require('find-remove')
@@ -25,6 +34,7 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
         } else {
             episodeLink = germanLink + season + 'e' + episode
         }
+        console.log(episodeLink);
 
         let [resolutionWidth, errorResolution] = await getBestResolutionWidth(episodeLink, path)
 
@@ -32,7 +42,8 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
 
         if (code == 0 || code == 1) {
             mergingCallback();
-
+            console.log(filenames);
+            console.log(path);
             var mapping = await getMergeMapping(filenames, path);
 
             let [dataMerge, errorMerge] = await merge(filenames, mapping, path, episodeName, season, episode)
@@ -42,6 +53,17 @@ module.exports.downloadEpisode = async function downloadEpisode(season, episode,
             callback(dataDownload, errorDownload, dataMerge, errorMerge, episodeName)
         }
     }
+}
+
+function replaceUmlaute(str) {
+    return str
+        .replace(/[\u00dc|\u00c4|\u00d6][a-z]/g, (a) => {
+            const big = umlautMap[a.slice(0, 1)];
+            return big.charAt(0) + big.charAt(1).toLowerCase() + a.slice(1);
+        })
+        .replace(new RegExp('['+Object.keys(umlautMap).join('|')+']',"g"),
+            (a) => umlautMap[a]
+        );
 }
 
 // the single parts are available with different resolutions. Not always the best resolution is marked as 'best'. It appears that youtube-dl takes not the best or even differnet resolutions for the part files.
@@ -138,6 +160,7 @@ async function download(link, path, output, season, episode, resolutionWidth, pr
                                 let obj = JSON.parse(data)
                                 filenames.push(obj._filename)
                                 episodeName = obj.playlist
+                                episodeName = replaceUmlaute(episodeName);
                                 chunksCallback(obj.n_entries)
                             } else {
                                 console.log(err);
@@ -167,7 +190,7 @@ async function download(link, path, output, season, episode, resolutionWidth, pr
                 //console.log(lines[i].replace("\n", ""));
             }
 
-            if (fs.existsSync(path + `SouthPark ${season}.${episode} - ${episodeName}.mkv`)) {
+            if (fs.existsSync(path + `S${season}E${episode} - SouthPark - ${episodeName}.mkv`)) {
                 console.log('Episode already downloaded! Aborting!');
                 command.kill('SIGINT')
             }
@@ -292,16 +315,17 @@ async function merge(filenames, mapping, path, episodeName, season, episode) {
 
             args.push('-o')
 		
-            var forbiddenCharacterRegex = /[\\/:"*?<>|]+/;
+            var forbiddenCharacterRegex = /[\\/:"*?<>|äöü!]+/;
 
             if (episodeName.match(forbiddenCharacterRegex)) {
 	            episodeName = episodeName.replace(forbiddenCharacterRegex, "_");
 	            console.log('Replaced illegal characters. New filename: ' + episodeName);
             }
             
-            args.push(`${path}SouthPark ${season}.${episode} - ${episodeName}.mkv`)
+            args.push(`${path}S${season}E${episode} - SouthPark - ${episodeName}.mkv`)
             args.push('--append-to');
             args.push(mapping);
+            console.log(args);
 
             let command;
             if (os == 'linux') {
